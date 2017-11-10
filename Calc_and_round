@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 def round_PipeSize(size):
+    # Function accepts decimal calculated value for IFGC pipe sizing and 
+    # returns the next larger available pipe from commonly available sizes.
+    
     #from fractions import Fraction
     avail_Sizes = ('.75','1','1.25','1.5','2','2.5','3','4','6')
     i = 0
@@ -11,10 +14,11 @@ def round_PipeSize(size):
             i += 1
 
 def size_HPPipe(gas_Load,tot_Length,press_in,press_drop):
+    # Calculate the IFGC high pressure pipe size from the equation:
     
-# D =     Q^(0.381)
-#     ----------------
-#     18.93 [ (p_1^2 - p_2^2) * Y / (Cr * L) ]^(0.206)
+    # D =     Q^(0.381)
+    #     ----------------
+    #     18.93 [ (p_1^2 - p_2^2) * Y / (Cr * L) ]^(0.206)
 
     p_1 = press_in + 14.7
     p_2 = (press_in - press_drop) + 14.7
@@ -35,9 +39,11 @@ def size_HPPipe(gas_Load,tot_Length,press_in,press_drop):
     return diam
 
 def size_LPPipe(gas_load, tot_length):
-# D =   Q^(0.381)
-#     -----------------  
-#     19.17 [d_H/Cr*L]^0.206  
+    # Calculate the IFGC low pressure pipe size from the equation:
+    
+    # D =   Q^(0.381)
+    #     -----------------  
+    #     19.17 [d_H/Cr*L]^0.206  
 
     # Default Values for Low Pressure Piping
     press_in = 2
@@ -45,10 +51,10 @@ def size_LPPipe(gas_load, tot_length):
     p_1 = press_in + 14.7
     p_2 = (press_in - press_drop) + 14.7
 
-    # Natural Gas Cr and Y: Uncomment to use
+    # Natural Gas Cr: Uncomment to use
     Cr = 0.6094
 
-    # Propane Cr and Y: Uncomment to use
+    # Propane Cr: Uncomment to use
     #Cr = 1.2462
 
     num = gas_load**(0.381)
