@@ -1,0 +1,65 @@
+# -*- coding: utf-8 -*-
+
+def round_PipeSize(size):
+    #from fractions import Fraction
+    avail_Sizes = ('.75','1','1.25','1.5','2','2.5','3','4','6')
+    i = 0
+    for option in avail_Sizes:
+        if size < float(option):
+            return (avail_Sizes[i])
+        else:    
+            i += 1
+
+def size_HPPipe(gas_Load,tot_Length,press_in,press_drop):
+    
+# D =     Q^(0.381)
+#     ----------------
+#     18.93 [ (p_1^2 - p_2^2) * Y / (Cr * L) ]^(0.206)
+
+    p_1 = press_in + 14.7
+    p_2 = (press_in - press_drop) + 14.7
+    
+    # Natural Gas Cr and Y: Uncomment to use
+    Cr = 0.6094
+    Y = 0.9992
+
+    # Propane Cr and Y: Uncomment to use
+    #Cr = 1.2462
+    #Y = 0.9910
+    
+    num = gas_Load**(0.381)
+
+    bracket = (((p_1**2 - p_2**2)*Y) / (Cr * tot_Length))**(0.206)
+    den = 18.93*bracket
+    diam = num / den
+    return diam
+
+def size_LPPipe(gas_load, tot_length):
+# D =   Q^(0.381)
+#     -----------------  
+#     19.17 [d_H/Cr*L]^0.206  
+
+    # Default Values for Low Pressure Piping
+    press_in = 2
+    press_drop = 0.3
+    p_1 = press_in + 14.7
+    p_2 = (press_in - press_drop) + 14.7
+
+    # Natural Gas Cr and Y: Uncomment to use
+    Cr = 0.6094
+
+    # Propane Cr and Y: Uncomment to use
+    #Cr = 1.2462
+
+    num = gas_load**(0.381)
+    bracket = (((p_1)-(p_2))/(Cr*tot_length))**(0.206)
+    den = 19.17*bracket
+    
+    diam = num / den
+    
+    return diam
+
+    
+a = size_LPPipe(2561,300)
+b = round_PipeSize(a)
+print(b)
