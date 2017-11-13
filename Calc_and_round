@@ -10,20 +10,24 @@ def round_PipeSize(size):
 	# returns the next larger available pipe from commonly available sizes.
 	
     #from fractions import Fraction
-    avail_Sizes = ('.75','1','1.25','1.5','2','2.5','3','4','6')
+    avail_Sizes = ('0','.75','1','1.25','1.5','2','2.5','3','4','6')
     i = 0
     for option in avail_Sizes:
+   		
         if size < float(option):
-            return (avail_Sizes[i])
+            return (float(avail_Sizes[i])/12)
         else:    
             i += 1
 
-def size_HPPipe(gas_Load,tot_Length,press_in,press_drop):
+def size_HPPipe(gas_load,tot_Length):
     # Calculate the IFGC high pressure pipe size from the equation:
     
 	# D =     Q^(0.381)
 	#     ----------------
 	#     18.93 [ (p_1^2 - p_2^2) * Y / (Cr * L) ]^(0.206)
+
+    press_in = 2
+    press_drop = 1
 
     p_1 = press_in + 14.7
     p_2 = (press_in - press_drop) + 14.7
@@ -36,7 +40,7 @@ def size_HPPipe(gas_Load,tot_Length,press_in,press_drop):
     #Cr = 1.2462
     #Y = 0.9910
     
-    num = gas_Load**(0.381)
+    num = (gas_load*448.833)**(0.381)
 
     bracket = (((p_1**2 - p_2**2)*Y) / (Cr * tot_Length))**(0.206)
     den = 18.93*bracket
@@ -63,7 +67,7 @@ def size_LPPipe(gas_load, tot_length):
     # Propane Cr variable: Uncomment to use
     #Cr = 1.2462
 
-    num = gas_load**(0.381)
+    num = (gas_load*448.833)**(0.381)
     bracket = (((p_1)-(p_2))/(Cr*tot_length))**(0.206)
     den = 19.17*bracket
     
@@ -76,8 +80,9 @@ calc_size = []
 
 
 for item in pipeData[1]:
-	calc_size.append(round_PipeSize(size_LPPipe(item, dev_length)))
+	calc_size.append(round_PipeSize(size_HPPipe(item, dev_length)))
 	
-result = [pipeData[0],calc_size]
+result = [calc_size]
 
 OUT = result
+
