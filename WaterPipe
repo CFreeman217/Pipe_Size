@@ -1,0 +1,26 @@
+import numpy as np
+import math as math
+
+def pipe_foot_per_gal(diam_inch):   
+    # Get cross sectional area in square feet
+    diam_foot = diam_inch/12
+    area = (math.pi/4)*(math.pow(diam_foot,2))
+    # 1 cubic foot is 7.48052 gallons
+    feet_per_gal = 1/(7.48052*area)
+    # print("Feet per gal: ")
+    # print(feet_per_gal)
+    return feet_per_gal
+
+def flow_velocity(gpm,pipeDiam):
+    # 1 ft^3/s = 448.5325660485 gpm
+    speed = (gpm/60) * pipe_foot_per_gal(pipeDiam)
+    return speed
+
+sizeTable = [.5,.75,1,1.25,1.5,2,2.5,3,4,6,8]
+velocityTable = {}
+for size in sizeTable:
+    for flow in gpmTable:
+        velocityTable[(flow,size)] = flow_velocity(flow,size)
+
+print("\nFlow rate (foot/sec) : ")
+print(velocityTable[(2,.5)])
