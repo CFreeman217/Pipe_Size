@@ -1,0 +1,47 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        ResizeMode="NoResize"
+
+        Title="2017 IFGC Gas Sizing: Select Pipes" Height="260" Width="380" Name="window">
+        <StackPanel Margin="10">
+            <WrapPanel HorizontalAlignment="Center" Margin="5">
+                <TextBlock Name="user_Instructions" Text="Select Piping System to be sized  : "/>
+            </WrapPanel>
+            <StackPanel Orientation="Horizontal">
+                    <RadioButton Name="HP_radioButton" Content="High Pressure                      " GroupName="Pressure_Select" Margin="5"/>
+                    <RadioButton Name="LP_radioButton" Content="Low Pressure" GroupName="Pressure_Select" IsChecked="True" Margin="5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Name="inletPres_Label" Text="Inlet Pressure: "/>
+                <ComboBox Name="inPressure_comboBox" IsEnabled="{Binding IsChecked, ElementName=HP_radioButton}" Width="75" SelectedValuePath="Content">
+                    <ComboBoxItem Content="2 PSI" Height="30" Width="75" IsSelected="True"/>
+                    <ComboBoxItem Content="3 PSI" Height="30" Width="75"/>
+                    <ComboBoxItem Content="5 PSI" Height="30" Width="75"/>
+                </ComboBox>
+
+                <TextBlock Name="presDrop_Label" TextWrapping="Wrap" Text="      Pressure Drop : " />
+                <ComboBox Name="presDrop_comboBox"  IsEnabled="{Binding IsChecked, ElementName=LP_radioButton}" Width="75" SelectedValuePath="Content">
+                    <ComboBoxItem Content="0.30 in." Height="30" Width="75"/>
+                    <ComboBoxItem Content="0.50 in." Height="30" Width="75" IsSelected="True"/>
+                    <ComboBoxItem Content="3.00 in." Height="30" Width="75"/>
+                    <ComboBoxItem Content="6.00 in." Height="30" Width="75"/>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <CheckBox Name="geo_ckbx">Change Pipe Geometry</CheckBox>
+                <TextBlock Text="     "/>
+                <CheckBox Name="cl_ckbx">Close Report After</CheckBox>
+            </StackPanel>
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <RadioButton Name="NG_radioButton" GroupName="Gas_Type" IsChecked="True">Natural Gas</RadioButton>
+                <TextBlock Text="     "/>
+                <RadioButton Name="C3H8_radioButton" GroupName="Gas_Type">Propane</RadioButton>
+            </StackPanel>            
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <TextBlock Name="TDL_Label"  Text="Total Developed Length :   " />
+                <TextBox Name="TDL_textBox" Width="75"/>
+                <TextBlock Name="Spacing"  Text="      " />
+                <Button Name="sizeSystem_Button" HorizontalAlignment="Right" Content=" Size Selection " Click="sizeSystem_button" IsCancel="True" IsEnabled="{Binding ElementName=TDL_textBox, Path=Text.Length}"/>
+            </StackPanel>
+        </StackPanel>
+</Window>
